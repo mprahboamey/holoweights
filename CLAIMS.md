@@ -1,18 +1,40 @@
 # Technical statements
 
-This file captures engineering statements for reproducibility. It is not legal advice and it is not a patent assertion document.
+This document records engineering statements for reproducibility.
 
-Statement one. AI weights can be represented as a tiled phase style volumetric address space in software, using deterministic `uint8` packing.
+It is not legal advice and it is not a patent filing.
 
-Statement two. A memory mapped tile bank with routed sparse reads can reduce active RAM pressure and active memory traffic versus dense full bank access.
+---
 
-Statement three. This representation can coexist with standard inference engines, so deployment does not require replacing the serving runtime.
+## Statement 1
 
-Statement four. A unified objective over quality proxy, latency, RAM, and bytes touched provides a principled way to choose operating points:
+AI weights can be represented as a tiled, phase-style volumetric address space in software using deterministic `uint8` packing.
+
+## Statement 2
+
+A memory mapped tile bank with routed sparse reads can reduce active RAM pressure and active memory traffic compared with dense full-bank access.
+
+## Statement 3
+
+This representation can coexist with standard inference engines, so deployment does not require replacing existing serving runtimes.
+
+## Statement 4
+
+A unified objective over quality proxy, latency, RAM, and bytes touched provides a principled operating-point selector:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-Statement five. When aggressive efficiency settings reduce quality, recovery levers such as distillation, residual correction, and consensus passes can restore useful quality regions while retaining a portion of efficiency gains.
+## Statement 5
 
-This repository does not claim that full transformer inference is physically optical, does not claim canonical benchmark perplexity without full logit evaluation, and does not claim universal superiority across all models or hardware.
+When aggressive efficiency settings reduce quality, recovery levers such as distillation, residual correction, and consensus passes can restore useful quality regions while retaining part of the efficiency gain.
+
+---
+
+## Boundary conditions
+
+This repository does not claim full transformer inference is physically optical in this codebase.
+
+This repository does not claim canonical benchmark perplexity without full-logit evaluation.
+
+This repository does not claim universal superiority across all models and hardware.
 

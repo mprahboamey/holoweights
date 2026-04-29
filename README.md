@@ -1,53 +1,80 @@
 # HoloWeights
 
-HoloWeights is a clean, digital method for storing and serving AI weights with optical style intuition and practical systems discipline.
+**Digital AI weight representation with optical intuition.**
 
-The project focuses on software only. It does not require photonic hardware, and it does not make grand scientific claims. The point is simple: make weight storage and access more efficient while keeping the workflow compatible with normal inference engines.
+HoloWeights is a software-first project for packing model weights into a virtual volumetric tile bank, serving them through memory mapping, and reducing active memory traffic with sparse access patterns.
 
-## What this project does
+This repository is intentionally practical. It does not depend on photonic hardware, and it does not present extraordinary claims. It focuses on measurable engineering outcomes.
 
-Model bytes are repacked into fixed `128x128` phase style tiles, persisted as a memory mapped bank, and accessed with sparse routing patterns. Inference can stay on standard serving stacks such as GGUF based runtimes.
+---
 
-In short, this project treats the model as a virtual volumetric medium in software, then optimizes how much of that medium is touched per token.
+## At a glance
 
-## Working objective
+| Metric | Example result |
+|--------|----------------|
+| GGUF artifact size | `4,372,811,712` bytes |
+| Virtual tile bank size | `4,372,054,016` bytes |
+| Dense FP16 counterfactual | `14,496,047,104` bytes |
+| Storage reduction vs FP16 | `~3.315x` |
+| Sparse mmap RSS delta | `~33.7 MB` |
+| Runtime bridge throughput | `~3.4 tok/s` |
 
-The optimization target is practical and explicit:
+---
+
+## Core idea
+
+Represent model bytes as fixed `128x128` `uint8` tiles, persist them as a memory mapped bank, and route token-time access to only the tiles that matter.
+
+The optimization target is explicit:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-This keeps quality, speed, memory use, and bandwidth pressure in one frame.
+This keeps quality, speed, memory footprint, and bandwidth pressure in one framework.
 
-## What you will find here
+---
 
-`THEORY.md` explains the math intuition.  
-`METHOD.md` explains the representation and serving flow.  
-`CLAIMS.md` captures technical statements in conservative language.  
-`RESULTS.md` reports measured outcomes with caveats.  
-`snippets/` contains small runnable examples for tile packing, mmap probing, and runtime bench wiring.
+## Documentation
 
-## Example run snapshot
+| Document | Purpose |
+|----------|---------|
+| `THEORY.md` | Mathematical intuition and systems framing |
+| `METHOD.md` | End-to-end representation and serving flow |
+| `CLAIMS.md` | Conservative technical statements |
+| `RESULTS.md` | Measured outputs and reproducibility notes |
 
-One measured run reported the following:
+Code examples live in `snippets/`.
 
-GGUF size: `4,372,811,712` bytes  
-Virtual tile bank size: `4,372,054,016` bytes  
-Dense FP16 counterfactual: `14,496,047,104` bytes  
-Reduction versus dense FP16: about `3.315x`  
-Sparse mmap probe RSS delta for 512 touches: about `33.7 MB`  
-Runtime bridge throughput in CPU test environment: about `3.4 tok/s`
+---
 
-The full context is in `RESULTS.md`, including caveats and reproducibility notes.
+## Related repository
+
+For the broader optics-heavy project context, see:
+
+[PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean.git)
+
+HoloWeights is the narrow digital representation layer. PHOTEX-clean covers the larger photonic and theory narrative.
+
+---
 
 ## Scope
 
-This repository demonstrates representation, memory behavior, and serving integration. It is not a claim that full transformer inference is physically optical in this codebase. Quality tracking may use a proxy unless full logit evaluation is wired in.
+This repository demonstrates representation, memory behavior, and serving integration.
+
+It does not claim full transformer inference is physically optical in this codebase.
+
+Quality tracking may use a proxy metric unless full-logit evaluation is integrated.
+
+---
 
 ## Quick start
 
-Start with `METHOD.md`, then read `THEORY.md`, then run the snippets.
+1. Read `METHOD.md`
+2. Read `THEORY.md`
+3. Run the files in `snippets/`
+
+---
 
 ## License
 
-MIT, see `LICENSE`.
+MIT. See `LICENSE`.
 

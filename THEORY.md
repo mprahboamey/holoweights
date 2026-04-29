@@ -1,32 +1,78 @@
 # Theory
 
-This project borrows intuition from wave optics, then applies it in fully digital form.
+HoloWeights applies optical-style intuition inside a purely digital system.
 
-Each tile can be read as a phase coded patch. A conceptual field transform is:
+The purpose of this document is to define the mathematical framing behind the representation and serving choices.
+
+---
+
+## 1. Complex-field intuition in software
+
+Each tile can be interpreted as a phase-coded patch in a virtual medium:
 
 `u_out(x, y) = u_in(x, y) * exp(j * phi(x, y))`
 
-In this repository, that expression is a modeling lens for representation design. It is not presented as a claim that full model inference is physically optical.
+In this repository, this is a representation lens, not a claim that full model inference is physically optical.
 
-A virtual volumetric address is written as:
+---
+
+## 2. Volumetric indexing model
+
+A virtual tile address is:
 
 `(angle, z_layer, tile_x, tile_y)`
 
-This gives a software index over a tiled bank, where angle and depth are multiplexing axes and tile coordinates are spatial partitions.
+where angle and depth are multiplexing axes, and tile coordinates are spatial partitions.
 
-Total indexed tiles follow:
+Total indexed tiles:
 
 `N_tiles = N_angle * N_z * N_x * N_y`
 
-The systems objective is straightforward:
+---
+
+## 3. Systems objective
+
+The working objective is:
 
 `J = NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-The core intuition is that bandwidth dominates many inference paths. If dense serving touches all tiles, but routed serving touches only `k` tiles where `k` is much smaller than `N_tiles`, per token byte movement drops from an all bank term to a routed term:
+This keeps the optimization grounded in quality, speed, resident memory, and active bandwidth.
 
-`bytes_per_token ~ O(k * tile_size)` instead of `O(N_tiles * tile_size)`
+---
 
-Storage should be interpreted with three references in view: a dense FP16 counterfactual, the compressed serving artifact, and the virtual tile bank. In practice, the tile bank can remain close to compressed artifact size while enabling routed access behavior.
+## 4. Why sparse access matters
 
-When quality drops under aggressive compression or routing, recovery mechanisms such as distillation pressure, residual correction, and consensus style averaging can move the operating point back toward useful quality.
+If dense serving touches all tiles, and routed serving touches only `k` tiles where `k` is much smaller than `N_tiles`, byte movement per token follows:
+
+`bytes_per_token ~ O(k * tile_size)`  
+instead of  
+`O(N_tiles * tile_size)`
+
+That reduction in active traffic is the primary systems benefit of routed tile access.
+
+---
+
+## 5. Storage interpretation
+
+Storage should always be read against three baselines:
+
+| Baseline | Meaning |
+|----------|---------|
+| Dense FP16 counterfactual | Full uncompressed weight storage |
+| Compressed serving artifact | Practical deployment format |
+| Virtual tile bank | Digital holographic-style layout |
+
+In many runs, tile-bank size stays close to compressed artifact size while enabling better control over access behavior.
+
+---
+
+## 6. Quality recovery under pressure
+
+Aggressive routing and compression can reduce quality. Recovery can be pursued through:
+
+1. Distillation pressure
+2. Residual correction
+3. Consensus-style averaging
+
+This forms a controllable quality-speed-memory operating surface.
 

@@ -1,35 +1,60 @@
 # Results
 
-These numbers come from measured local runs in one environment. They should be treated as reproducible examples, not universal guarantees.
+These values come from measured local runs in one environment.
 
-Storage footprint in the sample run:
+Treat them as reproducible examples, not universal guarantees.
 
-compressed model artifact `4,372,811,712` bytes  
-virtual tile bank file `4,372,054,016` bytes  
-dense FP16 counterfactual `14,496,047,104` bytes  
-reduction versus dense FP16 about `3.315x`
+---
 
-Memory probe in the sample run:
+## Storage footprint
 
-sparse random tile touches `512`  
-RSS delta during probe about `33,677,312` bytes, roughly `33.7 MB`
+| Metric | Value |
+|--------|-------|
+| Compressed model artifact | `4,372,811,712` bytes |
+| Virtual tile-bank file | `4,372,054,016` bytes |
+| Dense FP16 counterfactual | `14,496,047,104` bytes |
+| Reduction vs dense FP16 | `~3.315x` |
 
-Runtime bridge in the sample run:
+---
 
-standard engine inference bridge completed successfully  
-measured eval TPS in CPU run about `3.4 tok/s`  
-best runtime options in that run family were `num_thread=4`, `num_ctx=1024`, and `num_batch=128`
+## Memory probe
 
-Quality proxy in the sample run:
+| Metric | Value |
+|--------|-------|
+| Sparse random tile touches | `512` |
+| RSS delta during probe | `~33,677,312` bytes (`~33.7 MB`) |
 
-documented perplexity style proxy about `8.41`  
-caveat fields `missing_in_topk=1` and `greedy_nll_fills=4`
+---
+
+## Runtime bridge
+
+| Metric | Value |
+|--------|-------|
+| Standard engine bridge | successful |
+| Measured eval TPS in CPU run | `~3.4 tok/s` |
+| Best runtime knobs in run family | `num_thread=4`, `num_ctx=1024`, `num_batch=128` |
+
+---
+
+## Quality proxy
+
+| Metric | Value |
+|--------|-------|
+| Proxy perplexity-style score | `~8.41` |
+| `missing_in_topk` | `1` |
+| `greedy_nll_fills` | `4` |
 
 Interpretation:
 
-the representation can stay compact, sparse access can keep active memory growth bounded, and throughput can improve under tuned runtime settings. Quality tracking here is useful for trend optimization, but it is not equivalent to canonical corpus perplexity with full logit access.
+The representation stays compact, sparse access keeps active memory growth bounded, and throughput improves under tuned runtime settings.
 
-Reproducibility expectations:
+The quality metric here is useful for trend optimization, but it is not identical to canonical corpus perplexity with full logit access.
 
-publish raw artifacts and scripts, keep caveat text visible, and avoid mixing toy language model perplexity with real bridge metrics.
+---
+
+## Reproducibility rules
+
+1. Publish raw artifacts and scripts
+2. Keep caveat text visible in all summaries
+3. Do not mix toy-language-model perplexity with real bridge metrics
 

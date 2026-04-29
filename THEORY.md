@@ -1,71 +1,32 @@
-# Theory (Digital Virtual Holography)
+# Theory
 
-## 1) Representation as complex field intuition
+This project borrows intuition from wave optics, then applies it in fully digital form.
 
-Treat each tile as a phase-coded slice of a virtual optical medium:
-
-- tile values are stored in `uint8` and decoded to phase `phi(x, y)`
-- virtual field transform (conceptual):
+Each tile can be read as a phase coded patch. A conceptual field transform is:
 
 `u_out(x, y) = u_in(x, y) * exp(j * phi(x, y))`
 
-This is a **representation lens** in digital compute, not a claim that full model inference is physically optical in this repo.
+In this repository, that expression is a modeling lens for representation design. It is not presented as a claim that full model inference is physically optical.
 
-## 2) Volumetric indexing in software
-
-A volumetric address can be thought of as:
+A virtual volumetric address is written as:
 
 `(angle, z_layer, tile_x, tile_y)`
 
-where:
+This gives a software index over a tiled bank, where angle and depth are multiplexing axes and tile coordinates are spatial partitions.
 
-- `angle` and `z_layer` represent virtual multiplexing axes
-- `(tile_x, tile_y)` represent spatial partitioning
-
-Total indexed tiles:
+Total indexed tiles follow:
 
 `N_tiles = N_angle * N_z * N_x * N_y`
 
-## 3) Memory objective
+The systems objective is straightforward:
 
-Inference efficiency is largely bandwidth-limited, so optimize:
+`J = NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-`J = NLL_proxy + lambda1 * latency + lambda2 * RAM + lambda3 * bytes_touched`
+The core intuition is that bandwidth dominates many inference paths. If dense serving touches all tiles, but routed serving touches only `k` tiles where `k` is much smaller than `N_tiles`, per token byte movement drops from an all bank term to a routed term:
 
-where:
+`bytes_per_token ~ O(k * tile_size)` instead of `O(N_tiles * tile_size)`
 
-- `NLL_proxy` captures quality trend under practical measurement constraints
-- `bytes_touched` captures active tile bandwidth, not full model size
+Storage should be interpreted with three references in view: a dense FP16 counterfactual, the compressed serving artifact, and the virtual tile bank. In practice, the tile bank can remain close to compressed artifact size while enabling routed access behavior.
 
-## 4) Why sparse routing matters
-
-If full dense access touches `N_tiles` tiles/token and routed access touches `k << N_tiles`:
-
-`bytes_per_token ~ O(k * tile_size)`
-
-instead of:
-
-`O(N_tiles * tile_size)`
-
-This is the primary mechanism behind runtime and memory traffic reduction.
-
-## 5) Storage framing
-
-Compare three quantities:
-
-1. dense FP16 counterfactual (`2 bytes * n_params`)
-2. compressed serving artifact (for example GGUF)
-3. virtual tile-bank layout
-
-The tile-bank is often close to compressed artifact size, and both can be much smaller than dense FP16.
-
-## 6) Noise and recovery framing
-
-When aggressive sparsity/quantization introduces quality loss, recover via:
-
-- distillation pressure
-- residual correction channels
-- consensus/averaging passes
-
-This forms a controllable quality-speed-memory tradeoff surface.
+When quality drops under aggressive compression or routing, recovery mechanisms such as distillation pressure, residual correction, and consensus style averaging can move the operating point back toward useful quality.
 

@@ -1,80 +1,53 @@
-# HoloWeights (Digital-Only)
+# HoloWeights
 
-A practical, digital representation of AI weights inspired by optical/volumetric intuition.
+HoloWeights is a clean, digital method for storing and serving AI weights with optical style intuition and practical systems discipline.
 
-This project is about a **software representation** (not hardware optics):
+The project focuses on software only. It does not require photonic hardware, and it does not make grand scientific claims. The point is simple: make weight storage and access more efficient while keeping the workflow compatible with normal inference engines.
 
-- model bytes are repacked into `128x128` phase-like tiles
-- tiles are served from a memory-mapped "volumetric" bank
-- sparse access patterns reduce active memory traffic
-- inference remains on standard engines (for example, GGUF + Ollama)
+## What this project does
 
-This is **not** a physical photonic implementation and does not claim a new law of physics.
+Model bytes are repacked into fixed `128x128` phase style tiles, persisted as a memory mapped bank, and accessed with sparse routing patterns. Inference can stay on standard serving stacks such as GGUF based runtimes.
 
-## Why this exists
+In short, this project treats the model as a virtual volumetric medium in software, then optimizes how much of that medium is touched per token.
 
-Large-model inference is often memory-bandwidth bound. A representation that:
+## Working objective
 
-1. keeps storage compact,
-2. keeps RAM residency low via mmap + sparse reads,
-3. preserves quality in practical operating regions,
-4. and stays compatible with standard inference stacks,
+The optimization target is practical and explicit:
 
-can be useful as an engineering approach.
+`NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-## Core idea (conservative version)
+This keeps quality, speed, memory use, and bandwidth pressure in one frame.
 
-Represent dense weight bytes in a virtual phase tile-bank:
+## What you will find here
 
-- logical model weights -> byte stream
-- byte stream -> fixed-size tile packing (`uint8`, `128x128`)
-- tile-bank -> mmap-backed file
-- retrieval -> routed sparse tile reads at inference-time
+`THEORY.md` explains the math intuition.  
+`METHOD.md` explains the representation and serving flow.  
+`CLAIMS.md` captures technical statements in conservative language.  
+`RESULTS.md` reports measured outcomes with caveats.  
+`snippets/` contains small runnable examples for tile packing, mmap probing, and runtime bench wiring.
 
-A useful objective is:
+## Example run snapshot
 
-`minimize NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
+One measured run reported the following:
 
-subject to quality and compatibility constraints.
+GGUF size: `4,372,811,712` bytes  
+Virtual tile bank size: `4,372,054,016` bytes  
+Dense FP16 counterfactual: `14,496,047,104` bytes  
+Reduction versus dense FP16: about `3.315x`  
+Sparse mmap probe RSS delta for 512 touches: about `33.7 MB`  
+Runtime bridge throughput in CPU test environment: about `3.4 tok/s`
 
-## What is included
+The full context is in `RESULTS.md`, including caveats and reproducibility notes.
 
-- `THEORY.md`: equations + intuition (ASM-inspired, complex fields, interference framing)
-- `METHOD.md`: concrete representation and serving flow
-- `CLAIMS.md`: technical claims (open-source articulation, not legal advice)
-- `RESULTS.md`: measured reductions and caveats
-- `snippets/`: runnable Python snippets for:
-  - tile packing
-  - mmap sparse probe
-  - runtime bench call pattern
+## Scope
 
-## Example measured numbers
-
-From one measured run:
-
-- GGUF size: `4,372,811,712` bytes
-- virtual tile-bank: `4,372,054,016` bytes
-- dense FP16 counterfactual: `14,496,047,104` bytes
-- reduction vs FP16: `~3.315x`
-- mmap sparse probe RSS delta (512 random tiles): `~33.7 MB`
-- runtime bridge TPS (CPU test env): `~3.4 tok/s`
-
-See `RESULTS.md` for details and caveats. Reproduce before making strong claims.
-
-## Scope and caveats (important)
-
-- This repository demonstrates a representation, memory behavior, and serving bridge.
-- It does **not** claim full end-to-end transformer forward pass through physical optics.
-- "Low perplexity" here may be a proxy unless full-logit evaluation is used.
-- Treat this as an open engineering method, not legal/scientific proof of novelty.
+This repository demonstrates representation, memory behavior, and serving integration. It is not a claim that full transformer inference is physically optical in this codebase. Quality tracking may use a proxy unless full logit evaluation is wired in.
 
 ## Quick start
 
-1. Read `METHOD.md` and `THEORY.md`.
-2. Run snippets in `snippets/`.
-3. Compare your own model with the same report schema.
+Start with `METHOD.md`, then read `THEORY.md`, then run the snippets.
 
 ## License
 
-Apache-2.0 (see `LICENSE`).
+MIT, see `LICENSE`.
 

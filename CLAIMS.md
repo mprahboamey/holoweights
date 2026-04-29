@@ -1,32 +1,18 @@
-# Technical Statements (Open-Source Framing)
+# Technical statements
 
-These are engineering statements for reproducibility, not legal advice or patent assertions.
+This file captures engineering statements for reproducibility. It is not legal advice and it is not a patent assertion document.
 
-## Statement 1 — Digital virtual-holographic weight representation
+Statement one. AI weights can be represented as a tiled phase style volumetric address space in software, using deterministic `uint8` packing.
 
-AI weights can be represented as a tiled phase-like volumetric address space in software, using fixed-size `uint8` tiles and deterministic byte packing.
+Statement two. A memory mapped tile bank with routed sparse reads can reduce active RAM pressure and active memory traffic versus dense full bank access.
 
-## Statement 2 — mmap-backed sparse serving behavior
+Statement three. This representation can coexist with standard inference engines, so deployment does not require replacing the serving runtime.
 
-A memory-mapped tile bank with routed sparse reads can reduce active RAM pressure and memory traffic compared to dense full-bank access.
-
-## Statement 3 — Compatibility bridge
-
-The representation layer can coexist with standard inference engines (for example GGUF-based stacks), enabling practical deployment without replacing the serving runtime.
-
-## Statement 4 — First-principles optimization objective
-
-A unified objective over quality proxy, latency, RAM, and bytes touched gives a principled way to choose operating points:
+Statement four. A unified objective over quality proxy, latency, RAM, and bytes touched provides a principled way to choose operating points:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-## Statement 5 — Recovery mechanisms under compression pressure
+Statement five. When aggressive efficiency settings reduce quality, recovery levers such as distillation, residual correction, and consensus passes can restore useful quality regions while retaining a portion of efficiency gains.
 
-When aggressive memory/throughput settings degrade quality, recovery levers (distillation, residual correction, consensus passes) can restore usable quality regions while retaining much of the efficiency gain.
-
-## What this does not claim
-
-- Not claiming that full transformer inference is physically optical in this repository.
-- Not claiming canonical benchmark perplexity unless full-logit evaluation is performed.
-- Not claiming universal superiority across all models/hardware.
+This repository does not claim that full transformer inference is physically optical, does not claim canonical benchmark perplexity without full logit evaluation, and does not claim universal superiority across all models or hardware.
 

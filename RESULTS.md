@@ -1,53 +1,35 @@
-# Results (Example Measurements, Conservative Framing)
+# Results
 
-The following values come from measured local runs in one environment.
-They are not universal guarantees.
+These numbers come from measured local runs in one environment. They should be treated as reproducible examples, not universal guarantees.
 
-## Storage footprint
+Storage footprint in the sample run:
 
-- compressed model artifact (GGUF): `4,372,811,712` bytes
-- virtual tile-bank file: `4,372,054,016` bytes
-- dense FP16 counterfactual: `14,496,047,104` bytes
-- reduction vs dense FP16: `~3.315x`
+compressed model artifact `4,372,811,712` bytes  
+virtual tile bank file `4,372,054,016` bytes  
+dense FP16 counterfactual `14,496,047,104` bytes  
+reduction versus dense FP16 about `3.315x`
 
-Interpretation: the virtual tile layout stays compact while enabling tiled routing behavior.
+Memory probe in the sample run:
 
-## Memory footprint probe
+sparse random tile touches `512`  
+RSS delta during probe about `33,677,312` bytes, roughly `33.7 MB`
 
-- sparse random tile touches: `512`
-- RSS delta during probe: `~33,677,312` bytes (`~33.7 MB`)
+Runtime bridge in the sample run:
 
-Interpretation: sparse mmap access can keep active memory increment bounded relative to full dense load.
+standard engine inference bridge completed successfully  
+measured eval TPS in CPU run about `3.4 tok/s`  
+best runtime options in that run family were `num_thread=4`, `num_ctx=1024`, and `num_batch=128`
 
-## Runtime bridge
+Quality proxy in the sample run:
 
-- standard engine inference bridge: successful
-- measured eval TPS (CPU run): `~3.4 tok/s`
-- best runtime options in that run family were:
-  - `num_thread=4`
-  - `num_ctx=1024`
-  - `num_batch=128`
+documented perplexity style proxy about `8.41`  
+caveat fields `missing_in_topk=1` and `greedy_nll_fills=4`
 
-## Quality proxy
+Interpretation:
 
-- proxy perplexity-like metric (documented method): `~8.41`
-- caveat fields:
-  - `missing_in_topk=1`
-  - `greedy_nll_fills=4`
+the representation can stay compact, sparse access can keep active memory growth bounded, and throughput can improve under tuned runtime settings. Quality tracking here is useful for trend optimization, but it is not equivalent to canonical corpus perplexity with full logit access.
 
-Interpretation: this proxy can be useful for trend optimization, but it is not the same as canonical corpus perplexity with full logits.
+Reproducibility expectations:
 
-## Goal checklist in sample run
-
-- VH presentation of real weights: pass
-- storage reduction vs FP16 dense: pass
-- sparse memory story: pass
-- real inference bridge: pass
-- low-PPL proxy target: pass under defined caveat policy in this run
-
-## Reproducibility notes
-
-- publish raw JSON artifacts and scripts, not only summary values
-- keep caveat text in reports
-- do not mix toy-language-model PPL with real-model bridge metrics
+publish raw artifacts and scripts, keep caveat text visible, and avoid mixing toy language model perplexity with real bridge metrics.
 

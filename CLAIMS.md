@@ -1,8 +1,8 @@
 # Technical statements
 
-This document records engineering statements for reproducibility.
+Narrow bullets I still believe after rereading the measurement notes.
 
-It is not legal advice and it is not a patent filing.
+Nothing here pretends to be legal advice or a patent draft.
 
 ---
 

@@ -2,7 +2,7 @@
 
 HoloWeights applies optical-style intuition inside a purely digital system.
 
-The purpose of this document is to define the mathematical framing behind the representation and serving choices.
+This file collects the framing I lean on while explaining why the tile layout behaves the way it does—not a textbook chapter.
 
 ---
 

@@ -2,13 +2,13 @@
 
 **Digital AI weight representation with optical intuition.**
 
-Maintained by **Mprah-Boamey**.
+**Mprah-Boamey**
 
-HoloWeights is a software-first project for packing model weights into a virtual volumetric tile bank, serving them through memory mapping, and reducing active memory traffic with sparse access patterns. If you are searching for phrases like digital virtual holographic AI weights, volumetric inference without new silicon, mmap-friendly LLM parameter serving, or a software analogue to optical neural network tiling narratives, this repository is scoped to representation and instrumentation rather than fabricated hype.
+HoloWeights is a small sandbox where I pack model weights into a virtual volumetric tile bank on disk, poke them through memory mapping, and count what happens to active memory when reads stay sparse. Optical language is only the metaphor; the measurements are ordinary files and RSS checks.
 
-Canonical maintainer hub: github.com/mprahboamey
+It stays practical on purpose: no photonic bench in this folder, no melodramatic claims, just numbers and caveats.
 
-This repository is intentionally practical. It does not depend on photonic hardware, and it does not present extraordinary claims. It focuses on measurable engineering outcomes.
+Companion vibe check for the bigger optics notebook: [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean).
 
 ---
 
@@ -27,13 +27,13 @@ This repository is intentionally practical. It does not depend on photonic hardw
 
 ## Core idea
 
-Represent model bytes as fixed `128x128` `uint8` tiles, persist them as a memory mapped bank, and route token-time access to only the tiles that matter.
+Treat model bytes as fixed `128x128` `uint8` tiles in a memmap file and only touch the tiles a toy router says matter for a step.
 
-The optimization target is explicit:
+Toy objective I keep in mind when comparing tricks:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-This keeps quality, speed, memory footprint, and bandwidth pressure in one framework.
+So quality, sluggishness, footprint, and bandwidth stay in the same scratchpad.
 
 ---
 
@@ -42,31 +42,21 @@ This keeps quality, speed, memory footprint, and bandwidth pressure in one frame
 | Document | Purpose |
 |----------|---------|
 | `THEORY.md` | Mathematical intuition and systems framing |
-| `METHOD.md` | End-to-end representation and serving flow |
-| `CLAIMS.md` | Conservative technical statements |
-| `RESULTS.md` | Measured outputs and reproducibility notes |
+| `METHOD.md` | Representation and flow I actually tried |
+| `CLAIMS.md` | Careful technical bullets with boundaries |
+| `RESULTS.md` | One machine’s readings and how to rerun them |
 
-Code examples live in `snippets/`.
-
----
-
-## Related repository
-
-For the broader optics-heavy project context, see:
-
-[PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean.git)
-
-HoloWeights is the narrow digital representation layer. PHOTEX-clean covers the larger photonic and theory narrative.
+Code toys live under `snippets/`.
 
 ---
 
 ## Scope
 
-This repository demonstrates representation, memory behavior, and serving integration.
+Demonstrates layouts, probing scripts, and a bridge into a conventional runtime so comparisons stay grounded.
 
-It does not claim full transformer inference is physically optical in this codebase.
+Transformer-on-a-bench optics is explicitly out of scope for this codebase.
 
-Quality tracking may use a proxy metric unless full-logit evaluation is integrated.
+Quality numbers may stay proxy-ish until richer logit access shows up elsewhere.
 
 ---
 
@@ -74,7 +64,7 @@ Quality tracking may use a proxy metric unless full-logit evaluation is integrat
 
 1. Read `METHOD.md`
 2. Read `THEORY.md`
-3. Run the files in `snippets/`
+3. Run the snippets that look interesting.
 
 ---
 
@@ -82,25 +72,24 @@ Quality tracking may use a proxy metric unless full-logit evaluation is integrat
 
 ### What does virtual holographic mean here?
 
-A mental model borrowed from holographic multiplexing where many patterns share a medium. Digitally we stack bytes into tiled planes and address subsets at inference time. No claim that free-space optics are executing gradients is implied by this codebase.
+Borrowed multiplexing intuition: stacks of patterned planes you can poke through partially. Digitally it is bytes in tiles—not a literal crystal doing backprop behind your laptop.
 
 ### How does this relate to optical computing or optical neural networks?
 
-It is a disciplined digital analogue for storage routing and multiplexing metaphors commonly discussed around optical neural networks. PHOTEX-clean carries the photonic wave-optics storyline. HoloWeights stays on memory behavior you can probe on a workstation.
+Same metaphor grocery aisle as those topics, staged on disk instead of in glass. PHOTEX carries the fluffier optics essay; Holoweights is RAM and mmap nagging.
 
-### Why pair mmap tiles with sparse routing?
+### Why mmap tiles plus sparse touches?
 
-Memory mapping keeps cold parameter regions off active RSS until touched, while sparse routing trims bytes read per logical step once you commit to subsets of tensors. Practical trade-offs live in `METHOD.md` and `RESULTS.md`.
+mmap lets untouched slabs stay politely absent from RSS until demanded; sparse masks trim how much of the slab you slap per step. Caveats spelled out in `METHOD.md` and `RESULTS.md`.
 
 ---
 
-## Visibility
+## Static mirror
 
-See DISCOVERABILITY.md for an evidence-based checklist and GitHub Pages setup for the crawlable docs landing page.
+There is an optional GitHub Pages folder with vanilla HTML summarizing what lives here (`docs/` plus `STATIC_MIRROR_AND_CITATION.md` for boring file-level notes).
 
 ---
 
 ## License
 
 MIT. See `LICENSE`.
-

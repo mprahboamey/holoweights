@@ -1,6 +1,6 @@
 # Method
 
-HoloWeights is built as a compact pipeline that can be dropped into existing serving workflows.
+HoloWeights is a compact pipeline-shaped scratchpad—handy whenever you already have a conventional runtime and feel like probing alternate layouts beside it.
 
 ---
 
@@ -58,7 +58,7 @@ HoloWeights is built as a compact pipeline that can be dropped into existing ser
 
 ---
 
-## Reporting standard
+## Scratchpad honesty
 
-Publish environment details, runtime knobs, caveats, and raw artifacts for every reported run.
+When a number lands in README or RESULTS, I try to keep env details, knobs, caveats, and raw artifacts tethered nearby so Past Me doesn’t dunk on Present Me later.
 

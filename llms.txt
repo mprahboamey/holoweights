@@ -10,9 +10,8 @@
 - https://github.com/mprahboamey/holoweights/blob/main/THEORY.md
 - https://github.com/mprahboamey/holoweights/blob/main/CLAIMS.md
 
-## Maintainer
-- GitHub profile: https://github.com/mprahboamey
-- LinkedIn: https://www.linkedin.com/in/mprahboamey/
+## Author
+- Personal GitHub: https://github.com/mprahboamey
 
-## Adjacent optics narrative (separate repo)
+## Side channel (optics-heavy notes)
 - https://github.com/mprahboamey/PHOTEX-clean

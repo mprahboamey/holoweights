@@ -52,9 +52,9 @@ The quality metric here is useful for trend optimization, but it is not identica
 
 ---
 
-## Reproducibility rules
+## Notes to self on reruns
 
-1. Publish raw artifacts and scripts
-2. Keep caveat text visible in all summaries
-3. Do not mix toy-language-model perplexity with real bridge metrics
+1. Tie raw blobs and scripts to every table above.
+2. Leave caveat text clingy—it trips people less.
+3. Don’t braid toy-model perplexity with bridge numbers without yelling about it first.
 

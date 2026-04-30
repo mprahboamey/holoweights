@@ -16,7 +16,7 @@ A memory mapped tile bank with routed sparse reads can reduce active RAM pressur
 
 ## Statement 3
 
-This representation can coexist with standard inference engines, so deployment does not require replacing existing serving runtimes.
+This representation can sit next to ordinary inference stacks for experiments without ripping out whichever runtime you already use.
 
 ## Statement 4
 

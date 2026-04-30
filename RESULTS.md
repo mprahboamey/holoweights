@@ -1,8 +1,8 @@
 # Results
 
-These values come from measured local runs in one environment.
+Straight out of measured local runs from one workstation.
 
-Treat them as reproducible examples, not universal guarantees.
+Treat every table like a campfire story somebody else ought to rerun before quoting as gospel.
 
 ---
 
@@ -44,17 +44,12 @@ Treat them as reproducible examples, not universal guarantees.
 | `missing_in_topk` | `1` |
 | `greedy_nll_fills` | `4` |
 
-Interpretation:
+The layout stayed compact enough for my amusement. Sparse prodding capped RAM growth politely in this pass. Turning runtime knobs fiddled throughput upward until fans complained politely.
 
-The representation stays compact, sparse access keeps active memory growth bounded, and throughput improves under tuned runtime settings.
-
-The quality metric here is useful for trend optimization, but it is not identical to canonical corpus perplexity with full logit access.
+Whatever proxy surfaced here compares trends against itself. It never pretends to be canonical corpus perplexity with full logits.
 
 ---
 
 ## Notes to self on reruns
 
-1. Tie raw blobs and scripts to every table above.
-2. Leave caveat text clingy—it trips people less.
-3. Don’t braid toy-model perplexity with bridge numbers without yelling about it first.
-
+Tie blobs plus scripts beside every headline. Paste caveat ribbons where eyes gloss over. Separate toy-model perplexity fairy tales from bridge numbers loudly before mixing.

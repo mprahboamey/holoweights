@@ -1,17 +1,12 @@
 # Method
 
-HoloWeights is a compact pipeline-shaped scratchpad—handy whenever you already have a conventional runtime and feel like probing alternate layouts beside it.
+HoloWeights is a pipe-shaped diary. Useful when some ordinary runtime already lives on disk beside you and you want to perturb layouts without pretending you shipped silicon.
 
 ---
 
 ## Pipeline
 
-1. Ingest model bytes from a deployment artifact
-2. Repack bytes into fixed `128x128` `uint8` tiles
-3. Persist tiles as a memory mapped bank
-4. Probe sparse reads to measure active memory behavior
-5. Run inference through a standard engine bridge
-6. Evaluate quality, throughput, RAM, and active bandwidth together
+Order stays boring on purpose. Pull bytes from whatever deployment artifact anchors the notebook, mash them through fixed `128x128` `uint8` tiles, freeze the slabs as a mmap bank, toss sparse probes so RSS tells its little story, let a standard inference bridge grunt when metrics matter, then grumble in one breath about throughput, footprint, churned bytes, jittery perplexity proxies.
 
 ---
 
@@ -28,11 +23,7 @@ HoloWeights is a compact pipeline-shaped scratchpad—handy whenever you already
 
 ## Minimal algorithm
 
-1. Flatten selected weight bytes
-2. Pad to tile boundary
-3. Reshape to `[n_tiles, 128, 128]`
-4. Write memmap file
-5. Route token-time requests to top-k tiles
+Flatten the chosen slabs, pad cleanly, reshape into `[n_tiles, 128, 128]`, dump mmap bytes, slap a silly top-k router on token steps when experiments demand it.
 
 ---
 
@@ -54,11 +45,10 @@ HoloWeights is a compact pipeline-shaped scratchpad—handy whenever you already
 | Storage | Compressed artifact size vs dense FP16 counterfactual |
 | Memory | RSS delta during sparse tile touches |
 | Throughput | Engine TPS from measured eval windows |
-| Quality | Documented proxy with explicit caveats |
+| Quality | Documented proxy with caveats pasted nearby |
 
 ---
 
 ## Scratchpad honesty
 
-When a number lands in README or RESULTS, I try to keep env details, knobs, caveats, and raw artifacts tethered nearby so Past Me doesn’t dunk on Present Me later.
-
+When a digit lands anywhere public, tether environment notes, knobs, caveats, and raw blobs beside it so future me inherits context instead of fan fiction.

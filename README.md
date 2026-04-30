@@ -4,11 +4,11 @@
 
 **Mprah-Boamey**
 
-HoloWeights is a small sandbox where I pack model weights into a virtual volumetric tile bank on disk, poke them through memory mapping, and count what happens to active memory when reads stay sparse. Optical language is only the metaphor; the measurements are ordinary files and RSS checks.
+HoloWeights is a small sandbox. I pack model weights into a virtual volumetric tile bank on disk, poke them through memory mapping, and stare at RSS when reads stay sparse. The optical wording is metaphor. The traces are boring files and simple counters.
 
-It stays practical on purpose: no photonic bench in this folder, no melodramatic claims, just numbers and caveats.
+No photonics bench sits in this folder. I publish numbers and caveat text and move on.
 
-Companion vibe check for the bigger optics notebook: [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean).
+The louder optics scribbles live beside this in [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean).
 
 ---
 
@@ -27,44 +27,37 @@ Companion vibe check for the bigger optics notebook: [PHOTEX-clean](https://gith
 
 ## Core idea
 
-Treat model bytes as fixed `128x128` `uint8` tiles in a memmap file and only touch the tiles a toy router says matter for a step.
+Model bytes land in fixed `128x128` `uint8` tiles inside a memmap file. A toy router picks which slabs to touch each step.
 
-Toy objective I keep in mind when comparing tricks:
+When I compare setups I keep one scratch objective in mind:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
-So quality, sluggishness, footprint, and bandwidth stay in the same scratchpad.
+Quality, sluggishness, footprint, bandwidth. Same whiteboard doodle each time.
 
 ---
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| `THEORY.md` | Mathematical intuition and systems framing |
-| `METHOD.md` | Representation and flow I actually tried |
-| `CLAIMS.md` | Careful technical bullets with boundaries |
-| `RESULTS.md` | One machine’s readings and how to rerun them |
+`THEORY.md` holds math intuition. `METHOD.md` walks what I actually tried. `CLAIMS.md` collects narrow statements plus hard boundary text I refuse to soften. `RESULTS.md` is one workstation’s telemetry and rerun hints.
 
-Code toys live under `snippets/`.
+Toy code sits under `snippets/`.
 
 ---
 
 ## Scope
 
-Demonstrates layouts, probing scripts, and a bridge into a conventional runtime so comparisons stay grounded.
+Layouts, probing scripts, and a bridge into a vanilla runtime stay in scope because they keep comparisons honest.
 
-Transformer-on-a-bench optics is explicitly out of scope for this codebase.
+Full transformer optics on an actual bench is out of scope for this tree.
 
-Quality numbers may stay proxy-ish until richer logit access shows up elsewhere.
+Quality numbers may remain proxy-heavy until richer logit plumbing shows up somewhere else.
 
 ---
 
 ## Quick start
 
-1. Read `METHOD.md`
-2. Read `THEORY.md`
-3. Run the snippets that look interesting.
+Skim `METHOD.md`, skim `THEORY.md`, poke anything under `snippets/` that sparks curiosity.
 
 ---
 
@@ -72,21 +65,21 @@ Quality numbers may stay proxy-ish until richer logit access shows up elsewhere.
 
 ### What does virtual holographic mean here?
 
-Borrowed multiplexing intuition: stacks of patterned planes you can poke through partially. Digitally it is bytes in tiles—not a literal crystal doing backprop behind your laptop.
+Stacks of patterned planes you can partially address. Digitally those planes are tiles. Nobody’s crystal is secretly training through your heatsink unless you bolted hardware I do not describe here.
 
 ### How does this relate to optical computing or optical neural networks?
 
-Same metaphor grocery aisle as those topics, staged on disk instead of in glass. PHOTEX carries the fluffier optics essay; Holoweights is RAM and mmap nagging.
+Same grocery aisle of metaphors, staged on SSD instead of glass. PHOTEX carries the fluffier optics essay. Holoweights is mmap nagging and RSS curiosity.
 
 ### Why mmap tiles plus sparse touches?
 
-mmap lets untouched slabs stay politely absent from RSS until demanded; sparse masks trim how much of the slab you slap per step. Caveats spelled out in `METHOD.md` and `RESULTS.md`.
+Untouched slabs can stay politely absent from RSS until someone asks for them. Sparse masks blunt how much of the bank you slap per step. Caveats stay in `METHOD.md` and `RESULTS.md`.
 
 ---
 
 ## Static mirror
 
-There is an optional GitHub Pages folder with vanilla HTML summarizing what lives here (`docs/` plus `STATIC_MIRROR_AND_CITATION.md` for boring file-level notes).
+Optional GitHub Pages folder with plain HTML echoes this readme. File-level breadcrumbs live in `STATIC_MIRROR_AND_CITATION.md`.
 
 ---
 

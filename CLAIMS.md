@@ -1,8 +1,8 @@
 # Technical statements
 
-Narrow bullets I still believe after rereading the measurement notes.
+Things I still believe after rereading the measurement notes against the actual traces.
 
-Nothing here pretends to be legal advice or a patent draft.
+Nothing here is legal advice. Nothing here is pretending to be a patent draft.
 
 ---
 
@@ -20,7 +20,7 @@ This representation can sit next to ordinary inference stacks for experiments wi
 
 ## Statement 4
 
-A unified objective over quality proxy, latency, RAM, and bytes touched provides a principled operating-point selector:
+A unified objective over quality proxy, latency, RAM, and bytes touched gives a principled knob for comparing operating points:
 
 `NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
 
@@ -37,4 +37,3 @@ This repository does not claim full transformer inference is physically optical 
 This repository does not claim canonical benchmark perplexity without full-logit evaluation.
 
 This repository does not claim universal superiority across all models and hardware.
-

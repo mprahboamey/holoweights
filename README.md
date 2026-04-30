@@ -2,6 +2,8 @@
 
 **Digital AI weight representation with optical intuition.**
 
+Maintained by **Mprah-Boamey**.
+
 HoloWeights is a software-first project for packing model weights into a virtual volumetric tile bank, serving them through memory mapping, and reducing active memory traffic with sparse access patterns.
 
 This repository is intentionally practical. It does not depend on photonic hardware, and it does not present extraordinary claims. It focuses on measurable engineering outcomes.

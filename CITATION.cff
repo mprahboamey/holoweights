@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: HoloWeights
+message: >-
+  Virtual volumetric tiling and memory-mapped representation for neural network weights,
+  with sparse access patterns aimed at inference-time memory bandwidth reduction.
+abstract: >-
+  Digital virtual holographic weight representation packs model bytes into fixed uint8 tiles,
+  persists them as a mmap bank, and routes token-time reads to subsets of tiles. This codebase
+  documents mathematics, instrumentation, and conservative claims separately from optics hardware.
+authors:
+  - name: Mprah-Boamey
+type: software
+keywords:
+  - virtual holography
+  - holographic inference
+  - volumetric inference
+  - optical neural networks
+  - optical computing
+  - memory-mapped weights
+  - sparse tile routing
+  - LLM inference
+  - quantization
+repository-code: https://github.com/mprahboamey/holoweights
+license: MIT

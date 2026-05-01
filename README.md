@@ -4,7 +4,7 @@
 
 **Mprah-Boamey**
 
-HoloWeights represents model weights as a tiled, memory-mapped volumetric structure — inspired by holographic storage geometry but implemented entirely in software. The goal is to study access patterns, storage efficiency, and RAM pressure under sparse routing without requiring photonic hardware.
+HoloWeights packs model weights into a memory-mapped tile structure organized after holographic storage geometry. The question it is designed to answer: does sparse, volumetric-style access actually change the memory pressure story? No photonics required.
 
 All measurements are from one workstation. The optical framing is a conceptual model, not a physical claim. Results should be reproduced in your own environment before citing.
 
@@ -39,10 +39,10 @@ This combines quality, latency, memory footprint, and bandwidth into a single su
 
 ## Documentation
 
-- `THEORY.md` — mathematical model and tile algebra
-- `METHOD.md` — implementation details
-- `CLAIMS.md` — precise technical statements with boundary conditions
-- `RESULTS.md` — measured results from one environment, with reproduction notes
+- `THEORY.md`: mathematical model and tile algebra
+- `METHOD.md`: implementation details
+- `CLAIMS.md`: precise technical statements with boundary conditions
+- `RESULTS.md`: measured results from one environment, with reproduction notes
 
 Source code lives under `snippets/`.
 
@@ -67,7 +67,7 @@ Read `METHOD.md` for implementation context, `THEORY.md` for the mathematical mo
 ## FAQ
 
 **What does "virtual holographic" mean here?**
-Weights are organized into a partially-addressable tile structure modeled after volumetric holographic addressing — stacked planes accessed by position and angle index. The implementation is software-only; no physical optics are involved.
+Weights are organized into a partially-addressable tile structure modeled after volumetric holographic addressing: stacked planes accessed by position and angle index. The implementation is software-only; no physical optics are involved.
 
 **How does this relate to optical computing?**
 The addressing model borrows from holographic storage geometry. The actual computation runs on standard hardware. [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean) covers the full optical simulation work.

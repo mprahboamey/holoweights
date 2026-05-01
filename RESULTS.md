@@ -1,8 +1,6 @@
 # Results
 
-Straight out of measured local runs from one workstation.
-
-Treat every table like a campfire story somebody else ought to rerun before quoting as gospel.
+All measurements are from a single workstation. Reproduce them in your own environment before citing.
 
 ---
 
@@ -13,7 +11,7 @@ Treat every table like a campfire story somebody else ought to rerun before quot
 | Compressed model artifact | `4,372,811,712` bytes |
 | Virtual tile-bank file | `4,372,054,016` bytes |
 | Dense FP16 counterfactual | `14,496,047,104` bytes |
-| Reduction vs dense FP16 | `~3.315x` |
+| Reduction vs dense FP16 | `~3.315×` |
 
 ---
 
@@ -44,12 +42,12 @@ Treat every table like a campfire story somebody else ought to rerun before quot
 | `missing_in_topk` | `1` |
 | `greedy_nll_fills` | `4` |
 
-The layout stayed compact enough for my amusement. Sparse prodding capped RAM growth politely in this pass. Turning runtime knobs fiddled throughput upward until fans complained politely.
+The tile layout kept storage compact. Sparse access bounded RSS growth to the tiles actually touched. Throughput improved with tuned runtime parameters.
 
-Whatever proxy surfaced here compares trends against itself. It never pretends to be canonical corpus perplexity with full logits.
+This quality metric is suitable for comparing operating points within this experimental setup. It is not equivalent to canonical corpus perplexity computed with full logit access.
 
 ---
 
-## Notes to self on reruns
+## Reproducibility notes
 
-Tie blobs plus scripts beside every headline. Paste caveat ribbons where eyes gloss over. Separate toy-model perplexity fairy tales from bridge numbers loudly before mixing.
+Publish raw artifacts and scripts alongside any reported number. Keep caveat text visible in summaries. Do not mix toy-model perplexity estimates with bridge throughput figures.

@@ -1,12 +1,17 @@
 # Method
 
-HoloWeights is a pipe-shaped diary. Useful when some ordinary runtime already lives on disk beside you and you want to perturb layouts without pretending you shipped silicon.
+HoloWeights is an experimental pipeline for studying weight layout, memory access patterns, and inference efficiency in software. It uses a standard runtime as a bridge for throughput and quality measurements, without requiring photonic hardware.
 
 ---
 
 ## Pipeline
 
-Order stays boring on purpose. Pull bytes from whatever deployment artifact anchors the notebook, mash them through fixed `128x128` `uint8` tiles, freeze the slabs as a mmap bank, toss sparse probes so RSS tells its little story, let a standard inference bridge grunt when metrics matter, then grumble in one breath about throughput, footprint, churned bytes, jittery perplexity proxies.
+1. Extract weights from a deployment artifact (GGUF or equivalent)
+2. Pack into fixed `128×128` `uint8` tiles
+3. Write tiles to a memory-mapped file
+4. Run sparse probes to measure RSS delta under partial access
+5. Bridge to a standard inference engine for throughput and quality measurements
+6. Record throughput, memory footprint, bytes touched, and quality proxy
 
 ---
 
@@ -15,25 +20,25 @@ Order stays boring on purpose. Pull bytes from whatever deployment artifact anch
 | Field | Value |
 |-------|-------|
 | dtype | `uint8` |
-| Tile shape | `128x128` |
-| Bytes per tile | `16384` |
+| Tile shape | `128×128` |
+| Bytes per tile | `16,384` |
 | Memmap mode | read-only for serving and probes |
 
 ---
 
-## Minimal algorithm
+## Core algorithm
 
-Flatten the chosen slabs, pad cleanly, reshape into `[n_tiles, 128, 128]`, dump mmap bytes, slap a silly top-k router on token steps when experiments demand it.
+Flatten weight tensors, pad to tile boundaries, reshape into `[n_tiles, 128, 128]`, serialize to a memory-mapped file. A top-k router selects active tiles per inference step during routing experiments.
 
 ---
 
-## Main control knobs
+## Control knobs
 
 | Knob | Effect |
 |------|--------|
-| `top_k` | Active tiles per token |
-| Quantization bits | Storage and read bandwidth pressure |
-| Downsample factor | Readout cost and quality pressure |
+| `top_k` | Number of active tiles per token |
+| Quantization bits | Storage size and read bandwidth |
+| Downsample factor | Readout cost and quality tradeoff |
 | `num_thread`, `num_ctx`, `num_batch` | Runtime throughput behavior |
 
 ---
@@ -43,12 +48,12 @@ Flatten the chosen slabs, pad cleanly, reshape into `[n_tiles, 128, 128]`, dump 
 | Metric class | Measurement |
 |--------------|-------------|
 | Storage | Compressed artifact size vs dense FP16 counterfactual |
-| Memory | RSS delta during sparse tile touches |
-| Throughput | Engine TPS from measured eval windows |
-| Quality | Documented proxy with caveats pasted nearby |
+| Memory | RSS delta during sparse tile access |
+| Throughput | Engine TPS from timed eval runs |
+| Quality | Proxy metric with documented caveats |
 
 ---
 
-## Scratchpad honesty
+## Reproducibility
 
-When a digit lands anywhere public, tether environment notes, knobs, caveats, and raw blobs beside it so future me inherits context instead of fan fiction.
+Every reported number should be accompanied by the environment spec, runtime knobs, and raw output. This makes results reproducible rather than dependent on context that only exists at measurement time.

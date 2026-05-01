@@ -1,60 +1,61 @@
 # Theory
 
-HoloWeights borrows optical-style intuition inside software.
+HoloWeights uses optical storage geometry as a conceptual model for organizing software weight representations. The constructs below describe the tile indexing model and the systems objective used for comparing operating points.
 
-This file stacks the metaphors that keep the tile algebra legible while I scribble layouts. Nobody should mistake it for a textbook chapter somebody peer reviewed yesterday.
+This document covers the software model only. Full optical physics derivations are in [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean).
 
 ---
 
-## 1. Complex-field intuition in software
+## 1. Complex-field representation in software
 
-Each tile can be read like a phase-coded patch in some imaginary slab:
+Each tile can be interpreted as a phase-coded patch within a virtual volumetric slab:
 
-`u_out(x, y) = u_in(x, y) * exp(j * phi(x, y))`
+`u_out(x, y) = u_in(x, y) · exp(j · φ(x, y))`
 
-Lens language only. Nobody here asserts that the full transformer forward pass magically became physical optics inside this repository.
+This is a software abstraction. No physical optics are involved in this repository.
 
 ---
 
 ## 2. Volumetric indexing model
 
-A pretend tile stamp looks like `(angle, z_layer, tile_x, tile_y)` where angle plus depth imitate multiplex knobs and the tile axes chop space into squares.
+Each tile is addressed by a four-dimensional index: `(angle, z_layer, tile_x, tile_y)`, where the angle and depth coordinates model the multiplexing dimensions of holographic storage, and the spatial axes partition the weight space into fixed tiles.
 
-Population count stays `N_tiles = N_angle * N_z * N_x * N_y`.
+Total tile count: `N_tiles = N_angle × N_z × N_x × N_y`
 
 ---
 
 ## 3. Systems objective
 
-Keeping score with one bundle works for me:
+Operating points are compared using a combined objective:
 
-`J = NLL_proxy + lambda1*latency + lambda2*RAM + lambda3*bytes_touched`
+`J = NLL_proxy + λ₁·latency + λ₂·RAM + λ₃·bytes_touched`
 
-So quality proxies, sluggishness indicators, footprint, bandwidth pressure share one doodle rather than shouting past each other.
-
----
-
-## 4. Why sparse access matters
-
-Assume dense dumb serving slaps every tile while routed stupidity touches only `k` tiles far below `N_tiles`. Bytes per token then scale like `bytes_per_token ~ O(k * tile_size)` rather than blanketing `O(N_tiles * tile_size)`. Routed traffic dominates the intuition I cared about here.
+This bundles quality, latency, memory footprint, and bandwidth into a single surface rather than optimizing each in isolation.
 
 ---
 
-## 5. Storage interpretation
+## 4. Why sparse access reduces bandwidth
 
-Store every headline mentally against three baselines:
+Dense serving loads every tile regardless of relevance. Sparse routing loads only `k` tiles per token step, where `k ≪ N_tiles`. Bandwidth per token scales as:
 
-| Baseline | Meaning |
-|----------|---------|
+`bytes_per_token ~ O(k · tile_size)` vs. `O(N_tiles · tile_size)`
+
+Sparse routing is the primary mechanism for bandwidth reduction in this design.
+
+---
+
+## 5. Storage baselines
+
+| Baseline | Description |
+|----------|-------------|
 | Dense FP16 counterfactual | Full uncompressed weight storage |
-| Compressed serving artifact | Practical deployment format |
-| Virtual tile bank | Digital holographic-style layout |
+| Compressed serving artifact | Practical deployment format (e.g., GGUF) |
+| Virtual tile bank | Tiled layout using volumetric addressing |
 
-In many runs, tile-bank size stays close to compressed artifact size while enabling better control over access behavior.
-
+In most runs, the tile bank size is comparable to the compressed artifact while providing more granular access control.
 
 ---
 
-## 6. Quality recovery under pressure
+## 6. Quality recovery under compression pressure
 
-Crank routing or quantization too hard and the proxy screams. Gentle recovery paths I fiddle with resemble distillation pressure, leftover residual patching, crude consensus averages. Enough knobs exist to carve a workable surface instead of pretending one golden preset exists offline.
+Aggressive routing or quantization reduces quality proxy scores. Recovery approaches include distillation, residual correction, and ensemble averaging. These provide a tunable tradeoff between efficiency and quality rather than a single fixed operating point.

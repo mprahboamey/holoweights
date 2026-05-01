@@ -1,6 +1,6 @@
 # Results
 
-All measurements are from a single workstation. Reproduce them in your own environment before citing.
+All measurements are from a single workstation. Single-environment results are a starting point, not a guarantee.
 
 ---
 
@@ -50,4 +50,4 @@ This quality metric is suitable for comparing operating points within this exper
 
 ## Reproducibility notes
 
-Publish raw artifacts and scripts alongside any reported number. Keep caveat text visible in summaries. Do not mix toy-model perplexity estimates with bridge throughput figures.
+Raw artifacts and the scripts that produced them are tracked alongside these results. Caveat text stays in place rather than getting buried in summaries. Proxy perplexity estimates and bridge throughput figures live in separate sections for a reason.

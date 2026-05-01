@@ -56,4 +56,4 @@ Flatten weight tensors, pad to tile boundaries, reshape into `[n_tiles, 128, 128
 
 ## Reproducibility
 
-Every reported number should be accompanied by the environment spec, runtime knobs, and raw output. This makes results reproducible rather than dependent on context that only exists at measurement time.
+Every number here is paired with the environment spec, runtime knobs, and raw output. Context that only exists at measurement time is not useful to anyone trying to reproduce the work.

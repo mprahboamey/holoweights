@@ -6,7 +6,7 @@
 
 HoloWeights packs model weights into a memory-mapped tile structure organized after holographic storage geometry. The question it is designed to answer: does sparse, volumetric-style access actually change the memory pressure story? No photonics required.
 
-All measurements are from one workstation. The optical framing is a conceptual model, not a physical claim. Results should be reproduced in your own environment before citing.
+All measurements are from one workstation. The optical framing is a conceptual model, not a physical claim. These are single-environment results.
 
 For the full optical simulation and benchmark work, see [PHOTEX-clean](https://github.com/mprahboamey/PHOTEX-clean).
 
